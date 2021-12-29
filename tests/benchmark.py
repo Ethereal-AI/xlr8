@@ -20,8 +20,9 @@ from xlr8.similarity import cosine_similarity as xlr8_cos
 import timeit
 
 
-x = np.random.rand(2000, 2000)
-y = np.random.rand(2000, 2000)
+dim = 1000
+x = np.random.rand(dim, dim)
+y = np.random.rand(dim, dim)
 
 
 def sklearn_cosine():
