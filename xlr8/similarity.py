@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from sklearn.metrics.pairwise import check_pairwise_arrays
 from sklearn.preprocessing._data import normalize
+from xlr8.linalg import sparse_dot_product
 
 
 def cosine_similarity(X, Y=None, dense_output=True):
@@ -49,3 +50,6 @@ def cosine_similarity(X, Y=None, dense_output=True):
         Y_normalized = X_normalized
     else:
         Y_normalized = normalize(Y, copy=True)
+
+    kernel_matrix = sparse_dot_product(X_normalized, Y_normalized.T, dense_output=dense_output)
+    return kernel_matrix
