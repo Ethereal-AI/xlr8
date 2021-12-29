@@ -18,9 +18,12 @@ from sklearn.metrics.pairwise import cosine_similarity as sk_cos
 from scipy.spatial.distance import cdist
 from xlr8.similarity import cosine_similarity as xlr8_cos
 import timeit
+import sys
 
-
-dim = 1000
+try:
+    dim = int(sys.argv[1])
+except:
+	dim = 1000
 x = np.random.rand(dim, dim)
 y = np.random.rand(dim, dim)
 
