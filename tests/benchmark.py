@@ -20,8 +20,8 @@ from xlr8.similarity import cosine_similarity as xlr8_cos
 import timeit
 
 
-x = np.random.rand(1000, 1000)
-y = np.random.rand(1000, 1000)
+x = np.random.rand(2000, 2000)
+y = np.random.rand(2000, 2000)
 
 
 def sklearn_cosine():
@@ -37,13 +37,25 @@ def xlr8_cosine(use_float=False, approx_size=1.0):
 
 
 start_time = timeit.default_timer()
-print(sklearn_cosine())
-print(timeit.default_timer() - start_time)
+sklearn_cosine()
+print(f"scikit-learn cosine similarity: {timeit.default_timer() - start_time}")
 
 start_time = timeit.default_timer()
-print(scipy_cosine())
-print(timeit.default_timer() - start_time)
+xlr8_cosine()
+print(f"xlr8 default cosine similarity: {timeit.default_timer() - start_time}")
 
 start_time = timeit.default_timer()
-print(xlr8_cosine())
-print(timeit.default_timer() - start_time)
+xlr8_cosine(use_float=True)
+print(f"xlr8 float cosine similarity: {timeit.default_timer() - start_time}")
+
+start_time = timeit.default_timer()
+xlr8_cosine(approx_size=0.75)
+print(f"xlr8 approximated cosine similarity: {timeit.default_timer() - start_time}")
+
+start_time = timeit.default_timer()
+xlr8_cosine(use_float=True, approx_size=0.75)
+print(f"xlr8 approximated float cosine similarity: {timeit.default_timer() - start_time}")
+
+start_time = timeit.default_timer()
+scipy_cosine()
+print(f"scipy approximated float cosine similarity: {timeit.default_timer() - start_time}")
