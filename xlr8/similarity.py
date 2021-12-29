@@ -16,6 +16,7 @@
 from sklearn.metrics.pairwise import check_pairwise_arrays
 from sklearn.preprocessing._data import normalize
 
+
 def cosine_similarity(X, Y=None, dense_output=True):
     """Compute cosine similarity between samples in X and Y.
     Cosine similarity, or the cosine kernel, computes similarity as the

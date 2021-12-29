@@ -16,6 +16,7 @@
 import numpy as np
 from scipy.sparse import issparse
 
+
 def sparse_dot_product(a, b, *, dense_output=False):
     """Dot product that handle the sparse matrix case correctly.
     Parameters
@@ -49,11 +50,6 @@ def sparse_dot_product(a, b, *, dense_output=False):
     else:
         a_b = a @ b
 
-    if (
-        issparse(a)
-        and issparse(b)
-        and dense_output
-        and hasattr(a_b, "toarray")
-    ):
+    if issparse(a) and issparse(b) and dense_output and hasattr(a_b, "toarray"):
         return a_b.toarray()
     return a_b
