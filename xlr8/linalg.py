@@ -35,9 +35,9 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False):
         Sparse if ``a`` and ``b`` are sparse and ``dense_output=False``.
     """
     if use_float == True:
-	    a = a.astype(np.float32)
-	    b = b.astype(np.float32)
-    
+        a = a.astype(np.float32)
+        b = b.astype(np.float32)
+
     if a.ndim > 2 or b.ndim > 2:
         if issparse(a):
             # sparse is always 2D. Implies b is 3D+
