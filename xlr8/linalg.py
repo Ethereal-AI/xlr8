@@ -17,7 +17,7 @@ import numpy as np
 from scipy.sparse import issparse
 
 
-def sparse_dot_product(a, b, *, dense_output=False):
+def sparse_dot_product(a, b, *, dense_output=False, use_float=False):
     """Dot product that handle the sparse matrix case correctly.
     Parameters
     ----------
@@ -26,11 +26,18 @@ def sparse_dot_product(a, b, *, dense_output=False):
     dense_output : bool, default=False
         When False, ``a`` and ``b`` both being sparse will yield sparse output.
         When True, output will always be a dense array.
+    use_float : bool, default=True
+        When False, function uses default numpy datatype.
+        When True, function converts ``a`` and ``b`` to float.
     Returns
     -------
     dot_product : {ndarray, sparse matrix}
         Sparse if ``a`` and ``b`` are sparse and ``dense_output=False``.
     """
+    if use_float == True:
+	    a = a.astype(np.float32)
+	    b = b.astype(np.float32)
+    
     if a.ndim > 2 or b.ndim > 2:
         if issparse(a):
             # sparse is always 2D. Implies b is 3D+

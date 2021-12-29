@@ -18,7 +18,7 @@ from sklearn.preprocessing._data import normalize
 from xlr8.linalg import sparse_dot_product
 
 
-def cosine_similarity(X, Y=None, dense_output=True):
+def cosine_similarity(X, Y=None, dense_output=True, use_float=False):
     """Compute cosine similarity between samples in X and Y.
     Cosine similarity, or the cosine kernel, computes similarity as the
     normalized dot product of X and Y:
@@ -38,6 +38,9 @@ def cosine_similarity(X, Y=None, dense_output=True):
         ``False``, the output is sparse if both input arrays are sparse.
         .. versionadded:: 0.17
            parameter ``dense_output`` for dense output.
+    use_float : bool, default=True
+        When False, function uses default numpy datatype.
+        When True, function converts ``a`` and ``b`` to float.
     Returns
     -------
     kernel matrix : ndarray of shape (n_samples_X, n_samples_Y)
@@ -52,6 +55,6 @@ def cosine_similarity(X, Y=None, dense_output=True):
         Y_normalized = normalize(Y, copy=True)
 
     kernel_matrix = sparse_dot_product(
-        X_normalized, Y_normalized.T, dense_output=dense_output
+        X_normalized, Y_normalized.T, dense_output=dense_output, use_float=use_float
     )
     return kernel_matrix
