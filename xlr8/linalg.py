@@ -17,6 +17,36 @@ import numpy as np
 from scipy.sparse import issparse
 
 
+def uniform_approximation(a, b, c, d):
+    """Creates uniformly approximate matrices of a and b, c and d.
+    Parameters
+    ----------
+    a : {ndarray, sparse matrix}
+    b : {ndarray, sparse matrix}
+    c : {ndarray, sparse matrix}
+    d : {ndarray, sparse matrix}
+    Returns
+    -------
+    c : {ndarray, sparse matrix}
+    d : {ndarray, sparse matrix}
+    """
+    # Pick rows from a and corresponding column from b uniformly random
+    n = a.shape[1]
+    s = c.shape[1]
+    p_each = 1.0 / n  # Since uniform all row/col have equal probability
+    for t in range(0, s):
+        # Pick a random row and column independently with replacement
+        i_t = np.random.randint(0, n)
+        c[:, t] = a[i_t, :]
+        d[t, :] = b[:, i_t]
+
+    # Apply uniform scaling
+    scaling = np.sqrt(s * p_each)
+    c /= scaling
+    d /= scaling
+    return c, d
+
+
 def sparse_dot_product(a, b, *, dense_output=False, use_float=False):
     """Dot product that handle the sparse matrix case correctly.
     Parameters
