@@ -32,8 +32,8 @@ def scipy_cosine():
     return 1.0 - cdist(x, y, "cosine")
 
 
-def xlr8_cosine():
-    return xlr8_cos(x, y, use_float=True)
+def xlr8_cosine(use_float=False, approx_size=1.0):
+    return xlr8_cos(x, y, use_float=use_float, approx_size=approx_size)
 
 
 start_time = timeit.default_timer()
