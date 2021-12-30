@@ -69,10 +69,10 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
         b = b.astype(np.float32)
 
     if approx_size != 1.0:
-    	approx_dim = int(a.shape[1]*approx_size)
-    	c = np.zeros([a.shape[0], approx_dim], dtype=a.dtype)
-    	d = np.zeros([approx_dim, b.shape[1]], dtype=b.dtype)
-    	a, b = uniform_approximation(a, b, c, d)
+        approx_dim = int(a.shape[1]*approx_size)
+        c = np.zeros([a.shape[0], approx_dim], dtype=a.dtype)
+        d = np.zeros([approx_dim, b.shape[1]], dtype=b.dtype)
+        a, b = uniform_approximation(a, b, c, d)
 
     if a.ndim > 2 or b.ndim > 2:
         if issparse(a):
