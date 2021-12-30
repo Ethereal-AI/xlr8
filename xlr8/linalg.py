@@ -56,7 +56,7 @@ def uniform_approximation(a, b, c, d):
     return c, d
 
 
-def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size=1.0):
+def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size=1.0, blas="default"):
     """Dot product that handle the sparse matrix case correctly.
     Parameters
     ----------
@@ -73,6 +73,14 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
     dot_product : {ndarray, sparse matrix}
         Sparse if ``a`` and ``b`` are sparse and ``dense_output=False``.
     """
+    if blas != "mkl":
+        dot_product = np.matmul
+    elif blas == "mkl":
+        try:
+            dot_product = dot_product_mkl
+        except:
+            dot_product = np.matmul
+
     if convert_array == True:
         query_tfidf = query_tfidf.toarray()
         docs_tfidf = docs_tfidf.toarray()
