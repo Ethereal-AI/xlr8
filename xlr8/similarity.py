@@ -13,12 +13,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from xlr8.truncated_svd import TruncatedSVD
 from sklearn.metrics.pairwise import check_pairwise_arrays
 from sklearn.preprocessing._data import normalize
 from xlr8.linalg import sparse_dot_product
 
 
-def cosine_similarity(X, Y=None, dense_output=True, use_float=False, approx_size=1.0):
+def cosine_similarity(X, Y=None, dense_output=True, use_float=False, approx_size=1.0, compression_rate=1.0):
     """Compute cosine similarity between samples in X and Y.
     Cosine similarity, or the cosine kernel, computes similarity as the
     normalized dot product of X and Y:
@@ -45,6 +46,12 @@ def cosine_similarity(X, Y=None, dense_output=True, use_float=False, approx_size
     -------
     kernel matrix : ndarray of shape (n_samples_X, n_samples_Y)
     """
+    
+    if compression_rate != 1.0:
+        # test_cr = 0.075
+        svd = TruncatedSVD(n_components=int(min(Y.shape)*compression_rate), n_oversamples=0, n_iter=0, random_state=42)
+        Y = svd.fit_transform(Y)
+        X = svd.transform(X)
 
     X, Y = check_pairwise_arrays(X, Y)
 
