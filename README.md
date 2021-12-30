@@ -10,6 +10,7 @@ Fast cosine similarity for Python
 If you wish to leverage `xlr8`'s further speedup on large matrix multiplications, you may install the following:
 1. First, `sparse_dot` via `pip install sparse-dot-mkl`.
 2. Then, `Intel MKL` via `conda install -c intel mkl`.
+If a warning pops up stating that your Intel MKL version is outdated, find the updated .so or .dll and rename it appropriately since your system is probably detecting the old .so or .dll.  
 
 ### Usage
 
@@ -43,10 +44,10 @@ xlr8 approximated float cosine similarity speed in seconds: 8.802123799999997
 You can also test the library on a document similarity task. It is recommended to use scikit-learn's cosine_similarity for smaller number of documents.
 
 ```console
-$ python tests/document_similarity.py
-scikit-learn document similarity speed in seconds: 0.037181700000000095
-xlr8 (default BLAS) document similarity speed in seconds: 2.4518671000000003
-xlr8 (Intel MKL) document similarity speed in seconds: 0.03338299999999972
+$ python document_similarity.py
+xlr8 (Intel MKL) document similarity speed in seconds: 0.06536109999999873
+scikit-learn document similarity speed in seconds: 0.1037038999999993
+xlr8 (default BLAS) document similarity speed in seconds: 13.5424935
 Did scikit-learn and xlr8 find the same 'most similar document'? True
 ```
 
