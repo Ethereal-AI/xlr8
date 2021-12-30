@@ -56,7 +56,10 @@ def query_similarity(vectorizer, docs_tfidf, query, library="sklearn", blas="def
 
 
 docs = fetch_20newsgroups(
-    subset="train", categories=["sci.med"], shuffle=True, random_state=42
+    subset="train",
+    categories=["sci.crypt", "sci.electronics", "sci.med", "sci.space"],
+    shuffle=True,
+    random_state=42,
 ).data
 vectorizer = TfidfVectorizer()
 docs_tfidf = vectorizer.fit_transform(docs)
