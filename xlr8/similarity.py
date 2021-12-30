@@ -20,7 +20,7 @@ from xlr8.linalg import sparse_dot_product
 
 
 def cosine_similarity(
-    X, Y=None, dense_output=True, use_float=False, approx_size=1.0, compression_rate=1.0
+    X, Y=None, dense_output=True, use_float=False, approx_size=1.0, compression_rate=1.0, blas="default"
 ):
     """Compute cosine similarity between samples in X and Y.
     Cosine similarity, or the cosine kernel, computes similarity as the
@@ -74,5 +74,6 @@ def cosine_similarity(
         dense_output=dense_output,
         use_float=use_float,
         approx_size=approx_size,
+        blas=blas
     )
     return kernel_matrix
