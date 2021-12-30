@@ -16,6 +16,15 @@
 import numpy as np
 from scipy.sparse import issparse
 
+try:
+    from sparse_dot_mkl import dot_product_mkl
+    dot_product = dot_product_mkl
+    convert_array = False
+except:
+    dot_product = np.matmul
+    convert_array = True
+    pass
+
 
 def uniform_approximation(a, b, c, d):
     """Creates uniformly approximate matrices of a and b, c and d.
@@ -64,6 +73,10 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
     dot_product : {ndarray, sparse matrix}
         Sparse if ``a`` and ``b`` are sparse and ``dense_output=False``.
     """
+    if convert_array == True:
+        query_tfidf = query_tfidf.toarray()
+        docs_tfidf = docs_tfidf.toarray()
+
     if use_float == True:
         a = a.astype(np.float32)
         b = b.astype(np.float32)
@@ -80,18 +93,18 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
             # [i, j] @ [k, ..., l, m, n] -> [i, k, ..., l, n]
             b_ = np.rollaxis(b, -2)
             b_2d = b_.reshape((b.shape[-2], -1))
-            a_b = a @ b_2d
+            a_b = dot_product(a, b_2d)
             a_b = a_b.reshape(a.shape[0], *b_.shape[1:])
         elif issparse(b):
             # sparse is always 2D. Implies a is 3D+
             # [k, ..., l, m] @ [i, j] -> [k, ..., l, j]
             a_2d = a.reshape(-1, a.shape[-1])
-            a_b = a_2d @ b
+            a_b = dot_product(a_2d, b)
             a_b = a_b.reshape(*a.shape[:-1], b.shape[1])
         else:
             a_b = np.dot(a, b)
     else:
-        a_b = a @ b
+        a_b = dot_product(a, b, copy=False)
 
     if issparse(a) and issparse(b) and dense_output and hasattr(a_b, "toarray"):
         return a_b.toarray()

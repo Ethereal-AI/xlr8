@@ -40,8 +40,6 @@ def query_similarity(vectorizer, docs_tfidf, query, library="sklearn"):
     """
 
     query_tfidf = vectorizer.transform([query])
-    query_tfidf = query_tfidf.toarray()
-    docs_tfidf = docs_tfidf.toarray()
 
     if library == "sklearn":
         cosine_similarities = sk_cos(query_tfidf, docs_tfidf).flatten()
