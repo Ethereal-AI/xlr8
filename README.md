@@ -38,6 +38,18 @@ xlr8 approximated cosine similarity: 16.5568625
 xlr8 approximated float cosine similarity: 8.802123799999997
 ```
 
+### Usage in a natural language processing task
+
+You can also test the library on a document similarity task. It is recommended to use scikit-learn's cosine_similarity for smaller number of documents.
+
+```console
+$ python document_similarity.py
+scikit-learn document similarity speed in seconds: 0.007047400000000037
+xlr8 (default BLAS) document similarity speed in seconds: 0.16301120000000013
+xlr8 (Intel MKL) document similarity speed in seconds: 0.006310499999999886
+Did scikit-learn and xlr8 find the same 'most similar document'? True
+```
+
 ### Approximation
 
 This repository implements the uniform approximate matrix multiplication method found in this [paper](http://perso.ens-lyon.fr/loris.marchal/docs-data-aware/papers/paper9.pdf) by Drineas, Kannan, and Mahoney [1].
