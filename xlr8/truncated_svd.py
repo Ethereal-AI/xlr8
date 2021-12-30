@@ -272,7 +272,9 @@ class TruncatedSVD(TransformerMixin, BaseEstimator):
         B = safe_sparse_dot(Q.T, M)
 
         # compute the SVD on the thin matrix: (k + p) wide
-        Uhat, s, Vt = linalg.svd(B, full_matrices=False, check_finite=False, overwrite_a=True)
+        Uhat, s, Vt = linalg.svd(
+            B, full_matrices=False, check_finite=False, overwrite_a=True
+        )
 
         del B
         U = np.dot(Q, Uhat)
@@ -336,7 +338,12 @@ class TruncatedSVD(TransformerMixin, BaseEstimator):
                 "n_components must be < n_features; got %d >= %d" % (k, n_features)
             )
         U, Sigma, VT = self.randomized_svd(
-            X, self.n_components, n_oversamples=self.n_oversamples, power_iteration_normalizer="none", n_iter=self.n_iter, random_state=random_state
+            X,
+            self.n_components,
+            n_oversamples=self.n_oversamples,
+            power_iteration_normalizer="none",
+            n_iter=self.n_iter,
+            random_state=random_state,
         )
 
         self.components_ = VT
