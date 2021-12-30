@@ -66,7 +66,7 @@ Your immune system’s job is to keep you healthy by fighting harmful pathogens.
 Your immune system normally adjusts to your environment. For example, when your body encounters something like pet dander, it should realize it’s harmless. In people with dander allergies, the immune system perceives it as an outside invader threatening the body and attacks it.
 Allergies are common. Several treatments can help you avoid your symptoms.
 """
-print(f"Query document: {query}")
+# print(f"Query document: {query}")
 
 start_time = timeit.default_timer()
 index_sklearn = np.argmax(query_similarity(vectorizer, docs_tfidf, query))
