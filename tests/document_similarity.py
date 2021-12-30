@@ -70,25 +70,25 @@ Allergies are common. Several treatments can help you avoid your symptoms.
 
 start_time = timeit.default_timer()
 index_sklearn = np.argmax(query_similarity(vectorizer, docs_tfidf, query))
-most_similar_sklearn = docs[index_sklearn]
+# most_similar_sklearn = docs[index_sklearn]
 print(
     f"scikit-learn document similarity speed in seconds: {timeit.default_timer() - start_time}"
 )
 
 start_time = timeit.default_timer()
-index_xlr8 = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8"))
-most_similar_xlr8 = docs[index_xlr8]
+index_xlr8_def = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8"))
+# most_similar_xlr8_def = docs[index_xlr8_def]
 print(
     f"xlr8 (default BLAS) document similarity speed in seconds: {timeit.default_timer() - start_time}"
 )
 
 start_time = timeit.default_timer()
-index_xlr8 = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8", blas="mkl"))
-most_similar_xlr8 = docs[index_xlr8]
+index_xlr8_mkl = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8", blas="mkl"))
+# most_similar_xlr8_mkl = docs[index_xlr8_mkl]
 print(
     f"xlr8 (Intel MKL) document similarity speed in seconds: {timeit.default_timer() - start_time}"
 )
 
 print(
-    f"Did scikit-learn and xlr8 find the same 'most similar document'? {index_xlr8==index_sklearn}"
+    f"Did scikit-learn and xlr8 find the same 'most similar document'? {index_xlr8_def==index_xlr8_mkl==index_sklearn}"
 )
