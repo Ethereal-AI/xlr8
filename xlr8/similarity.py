@@ -55,6 +55,10 @@ def cosine_similarity(X, Y=None, dense_output=True, use_float=False, approx_size
         Y_normalized = normalize(Y, copy=True)
 
     kernel_matrix = sparse_dot_product(
-        X_normalized, Y_normalized.T, dense_output=dense_output, use_float=use_float, approx_size=approx_size
+        X_normalized,
+        Y_normalized.T,
+        dense_output=dense_output,
+        use_float=use_float,
+        approx_size=approx_size,
     )
     return kernel_matrix

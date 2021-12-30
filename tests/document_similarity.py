@@ -25,17 +25,26 @@ def query_similarity(vectorizer, docs_tfidf, query, library="sklearn"):
     """
 
     query_tfidf = vectorizer.transform([query])
+    query_tfidf = query_tfidf.toarray()
+    docs_tfidf = docs_tfidf.toarray()
+
     if library == "sklearn":
         cosine_similarities = sk_cos(query_tfidf, docs_tfidf).flatten()
     elif library == "xlr8":
-        cosine_similarities = xlr8_cos(query_tfidf, docs_tfidf, use_float=False).flatten()
+        cosine_similarities = xlr8_cos(
+            query_tfidf, docs_tfidf, use_float=False
+        ).flatten()
     else:
-        warnings.warn("The value for the library argument you provided does not exist. Using `sklearn` by default.")
+        warnings.warn(
+            "The value for the library argument you provided does not exist. Using `sklearn` by default."
+        )
         cosine_similarities = sk_cos(query_tfidf, docs_tfidf).flatten()
     return cosine_similarities
 
 
-docs = fetch_20newsgroups(subset='train', categories=['sci.med'], shuffle=True, random_state=42).data
+docs = fetch_20newsgroups(
+    subset="train", categories=["sci.med"], shuffle=True, random_state=42
+).data
 vectorizer = TfidfVectorizer()
 docs_tfidf = vectorizer.fit_transform(docs)
 query = """
@@ -49,11 +58,17 @@ print(f"Query document: {query}")
 start_time = timeit.default_timer()
 index_sklearn = np.argmax(query_similarity(vectorizer, docs_tfidf, query))
 most_similar_sklearn = docs[index_sklearn]
-print(f"scikit-learn document similarity speed in seconds: {timeit.default_timer() - start_time}")
+print(
+    f"scikit-learn document similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
 
 start_time = timeit.default_timer()
 index_xlr8 = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8"))
 most_similar_xlr8 = docs[index_xlr8]
-print(f"xlr8 document similarity speed in seconds: {timeit.default_timer() - start_time}")
+print(
+    f"xlr8 document similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
 
-print(f"Did scikit-learn and xlr8 find the same 'most similar document'? {index_xlr8==index_sklearn}")
+print(
+    f"Did scikit-learn and xlr8 find the same 'most similar document'? {index_xlr8==index_sklearn}"
+)

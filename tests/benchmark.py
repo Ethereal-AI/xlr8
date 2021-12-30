@@ -23,7 +23,7 @@ import sys
 try:
     dim = int(sys.argv[1])
 except:
-	dim = 1000
+    dim = 1000
 x = np.random.rand(dim, dim)
 y = np.random.rand(dim, dim)
 
@@ -58,7 +58,9 @@ print(f"xlr8 approximated cosine similarity: {timeit.default_timer() - start_tim
 
 start_time = timeit.default_timer()
 xlr8_cosine(use_float=True, approx_size=0.75)
-print(f"xlr8 approximated float cosine similarity: {timeit.default_timer() - start_time}")
+print(
+    f"xlr8 approximated float cosine similarity: {timeit.default_timer() - start_time}"
+)
 
 # start_time = timeit.default_timer()
 # scipy_cosine()
