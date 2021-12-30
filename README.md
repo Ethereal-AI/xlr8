@@ -32,3 +32,9 @@ xlr8 float cosine similarity: 9.0765971
 xlr8 approximated cosine similarity: 16.5568625
 xlr8 approximated float cosine similarity: 8.802123799999997
 ```
+
+### Approximation
+
+This repository implements the uniform approximate matrix multiplication method found in this [paper](http://perso.ens-lyon.fr/loris.marchal/docs-data-aware/papers/paper9.pdf) by Drineas, Kannan, and Mahoney [1].
+
+[1] Drineas, P., Kannan, R., & Mahoney, M. W. (2006). Fast Monte Carlo algorithms for matrices I: Approximating matrix multiplication. SIAM Journal on Computing, 36(1), 132-157.
