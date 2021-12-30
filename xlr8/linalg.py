@@ -18,12 +18,12 @@ from scipy.sparse import issparse
 
 try:
     from sparse_dot_mkl import dot_product_mkl
+
     dot_product = dot_product_mkl
     convert_array = False
 except:
     dot_product = np.matmul
     convert_array = True
-    pass
 
 
 def uniform_approximation(a, b, c, d):
