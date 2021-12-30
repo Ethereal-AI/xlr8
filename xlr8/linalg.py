@@ -84,10 +84,6 @@ def export_mkl(csr_mkl_handle):
     # Get matrix dims
     ncols, nrows = ncols.value, nrows.value
 
-    # If any axis is 0 return an empty matrix
-    if nrows == 0 or ncols == 0:
-        return sp_matrix_constructor((nrows, ncols), dtype=final_dtype)
-
     # Get the index dimension
     index_dim = nrows
 
