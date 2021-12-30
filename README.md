@@ -10,7 +10,8 @@ Fast cosine similarity for Python
 If you wish to leverage `xlr8`'s further speedup on large matrix multiplications, you may install the following:
 1. First, `sparse_dot` via `pip install sparse-dot-mkl`.
 2. Then, `Intel MKL` via `conda install -c intel mkl`.
-If a warning pops up stating that your Intel MKL version is outdated, find the updated .so or .dll and rename it appropriately since your system is probably detecting the old .so or .dll.  
+
+If a warning pops up stating that your Intel MKL version is outdated, find the old .so or .dll file to something else, then rename the updated .so or .dll to the appropriate filename. This is probably caused by your system detecting the old .so or .dll. If the problem persists, try `pip install mkl`.
 
 ### Usage
 
