@@ -30,7 +30,7 @@ To benchmark xlr8's different modes for performing cosine similarity, run `pytho
 
 Here's an example of running the benchmark with A and B set to sizes of 10,000 x 10,000:
 ```console
-$ python benchmark.py 10000
+$ python tests/benchmark.py 10000
 scikit-learn cosine similarity: 14.492997799999998
 xlr8 default cosine similarity: 15.422745399999997
 xlr8 float cosine similarity: 9.0765971
@@ -43,10 +43,10 @@ xlr8 approximated float cosine similarity: 8.802123799999997
 You can also test the library on a document similarity task. It is recommended to use scikit-learn's cosine_similarity for smaller number of documents.
 
 ```console
-$ python document_similarity.py
-scikit-learn document similarity speed in seconds: 0.007047400000000037
-xlr8 (default BLAS) document similarity speed in seconds: 0.16301120000000013
-xlr8 (Intel MKL) document similarity speed in seconds: 0.006310499999999886
+$ python tests/document_similarity.py
+scikit-learn document similarity speed in seconds: 0.037181700000000095
+xlr8 (default BLAS) document similarity speed in seconds: 2.4518671000000003
+xlr8 (Intel MKL) document similarity speed in seconds: 0.03338299999999972
 Did scikit-learn and xlr8 find the same 'most similar document'? True
 ```
 
