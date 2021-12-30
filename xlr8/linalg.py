@@ -17,9 +17,27 @@ import numpy as np
 from scipy.sparse import issparse
 
 try:
-    from sparse_dot_mkl import dot_product_mkl
+    from sparse_dot_mkl._mkl_interface import (MKL, sparse_matrix_t, _create_mkl_sparse, debug_print, debug_timer,
+                                           _export_mkl, _order_mkl_handle, _destroy_mkl_handle, _type_check,
+                                           _empty_output_check, _sanity_check, _is_allowed_sparse_format,
+                                           _check_return_value)
+    from sparse_dot_mkl._sparse_sparse import _matmul_mkl
 except:
     pass
+
+
+def mkl_dot(matrix_a, matrix_b, cast=False, reorder_output=False):
+    # Create intel MKL objects
+    mkl_a, a_dbl = _create_mkl_sparse(matrix_a)
+    mkl_b, b_dbl = _create_mkl_sparse(matrix_b)
+
+    mkl_c = _matmul_mkl(mkl_a, mkl_b)
+
+    if reorder_output:
+        _order_mkl_handle(mkl_c)
+    
+    python_c = _export_mkl(mkl_c, a_dbl or b_dbl, output_type="csr")
+    return python_c
 
 
 def uniform_approximation(a, b, c, d):
@@ -74,7 +92,7 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
         convert_array = True
     elif blas == "mkl":
         try:
-            dot_product = dot_product_mkl
+            dot_product = mkl_dot
             convert_array = False
         except:
             dot_product = np.matmul
