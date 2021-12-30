@@ -93,6 +93,15 @@ Allergies are common. Several treatments can help you avoid your symptoms.
 # print(f"Query document: {query}")
 
 start_time = timeit.default_timer()
+index_xlr8_mkl = np.argmax(
+    query_similarity(vectorizer, docs_tfidf, query, library="xlr8", blas="mkl")
+)
+# most_similar_xlr8_mkl = docs[index_xlr8_mkl]
+print(
+    f"xlr8 (Intel MKL) document similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
+
+start_time = timeit.default_timer()
 index_sklearn = np.argmax(query_similarity(vectorizer, docs_tfidf, query))
 # most_similar_sklearn = docs[index_sklearn]
 print(
@@ -106,15 +115,6 @@ index_xlr8_def = np.argmax(
 # most_similar_xlr8_def = docs[index_xlr8_def]
 print(
     f"xlr8 (default BLAS) document similarity speed in seconds: {timeit.default_timer() - start_time}"
-)
-
-start_time = timeit.default_timer()
-index_xlr8_mkl = np.argmax(
-    query_similarity(vectorizer, docs_tfidf, query, library="xlr8", blas="mkl")
-)
-# most_similar_xlr8_mkl = docs[index_xlr8_mkl]
-print(
-    f"xlr8 (Intel MKL) document similarity speed in seconds: {timeit.default_timer() - start_time}"
 )
 
 print(
