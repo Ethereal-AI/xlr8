@@ -81,8 +81,10 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
             convert_array = True
 
     if convert_array == True:
-        a = a.toarray()
-        b = b.toarray()
+        if not isinstance(a, np.ndarray):
+            a = a.toarray()
+        if not isinstance(b, np.ndarray):
+            b = b.toarray()
 
     if use_float == True:
         a = a.astype(np.float32)
