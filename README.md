@@ -18,8 +18,8 @@ Using the cosine similarity function is straightforward.
 from xlr8.similarity import cosine_similarity
 import numpy as np
 
-x = np.random.rand(1000,1000)
-y = np.random.rand(1000,1000)
+A = np.random.rand(1000,1000)
+B = np.random.rand(1000,1000)
 
 cosine_similarity(x,y)
 ```
@@ -28,14 +28,14 @@ cosine_similarity(x,y)
 
 To benchmark xlr8's different modes for performing cosine similarity, run `python tests/benchmark.py <dimension size>` from the main directory of the repository.<br>
 
-Here's an example of running the benchmark with A and B set to sizes of 10,000 x 10,000:
+Here's an example of running the benchmark with matrices A and B set to sizes of 10,000 x 10,000:
 ```console
 $ python tests/benchmark.py 10000
-scikit-learn cosine similarity: 14.492997799999998
-xlr8 default cosine similarity: 15.422745399999997
-xlr8 float cosine similarity: 9.0765971
-xlr8 approximated cosine similarity: 16.5568625
-xlr8 approximated float cosine similarity: 8.802123799999997
+scikit-learn cosine similarity speed in seconds: 14.492997799999998
+xlr8 default cosine similarity speed in seconds: 15.422745399999997
+xlr8 float cosine similarity speed in seconds: 9.0765971
+xlr8 approximated cosine similarity speed in seconds: 16.5568625
+xlr8 approximated float cosine similarity speed in seconds: 8.802123799999997
 ```
 
 ### Usage in a natural language processing task
