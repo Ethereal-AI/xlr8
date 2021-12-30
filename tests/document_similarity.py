@@ -32,7 +32,7 @@ def query_similarity(vectorizer, docs_tfidf, query, library="sklearn"):
         cosine_similarities = sk_cos(query_tfidf, docs_tfidf).flatten()
     elif library == "xlr8":
         cosine_similarities = xlr8_cos(
-            query_tfidf, docs_tfidf, use_float=False
+            query_tfidf, docs_tfidf, use_float=False, compression_rate=1.0
         ).flatten()
     else:
         warnings.warn(
