@@ -18,12 +18,8 @@ from scipy.sparse import issparse
 
 try:
     from sparse_dot_mkl import dot_product_mkl
-
-    dot_product = dot_product_mkl
-    convert_array = False
 except:
-    dot_product = np.matmul
-    convert_array = True
+    pass
 
 
 def uniform_approximation(a, b, c, d):
@@ -75,15 +71,18 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
     """
     if blas != "mkl":
         dot_product = np.matmul
+        convert_array = True
     elif blas == "mkl":
         try:
             dot_product = dot_product_mkl
+            convert_array = False
         except:
             dot_product = np.matmul
+            convert_array = True
 
     if convert_array == True:
-        query_tfidf = query_tfidf.toarray()
-        docs_tfidf = docs_tfidf.toarray()
+        a = a.toarray()
+        b = b.toarray()
 
     if use_float == True:
         a = a.astype(np.float32)
@@ -112,7 +111,7 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
         else:
             a_b = np.dot(a, b)
     else:
-        a_b = dot_product(a, b, copy=False)
+        a_b = dot_product(a, b)
 
     if issparse(a) and issparse(b) and dense_output and hasattr(a_b, "toarray"):
         return a_b.toarray()

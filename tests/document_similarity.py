@@ -22,7 +22,7 @@ import timeit
 import numpy as np
 
 
-def query_similarity(vectorizer, docs_tfidf, query, library="sklearn"):
+def query_similarity(vectorizer, docs_tfidf, query, library="sklearn", blas="default"):
     """Compute cosine similarity between query document and all documents.
     Parameters
     ----------
@@ -45,7 +45,7 @@ def query_similarity(vectorizer, docs_tfidf, query, library="sklearn"):
         cosine_similarities = sk_cos(query_tfidf, docs_tfidf).flatten()
     elif library == "xlr8":
         cosine_similarities = xlr8_cos(
-            query_tfidf, docs_tfidf, use_float=False, compression_rate=1.0
+            query_tfidf, docs_tfidf, use_float=False, compression_rate=1.0, blas=blas
         ).flatten()
     else:
         warnings.warn(
@@ -79,7 +79,14 @@ start_time = timeit.default_timer()
 index_xlr8 = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8"))
 most_similar_xlr8 = docs[index_xlr8]
 print(
-    f"xlr8 document similarity speed in seconds: {timeit.default_timer() - start_time}"
+    f"xlr8 (default BLAS) document similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
+
+start_time = timeit.default_timer()
+index_xlr8 = np.argmax(query_similarity(vectorizer, docs_tfidf, query, library="xlr8", blas="mkl"))
+most_similar_xlr8 = docs[index_xlr8]
+print(
+    f"xlr8 (Intel MKL) document similarity speed in seconds: {timeit.default_timer() - start_time}"
 )
 
 print(
