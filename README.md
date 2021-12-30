@@ -21,7 +21,7 @@ import numpy as np
 A = np.random.rand(1000,1000)
 B = np.random.rand(1000,1000)
 
-cosine_similarity(x,y)
+cosine_similarity(A, B)
 ```
 
 ### Benchmarking
