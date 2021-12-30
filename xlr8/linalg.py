@@ -14,13 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import numpy as np
-from scipy.sparse import issparse
+from numpy.ctypeslib import as_array
+import scipy.sparse as _spsparse
+import ctypes as _ctypes
 
 try:
     from sparse_dot_mkl._mkl_interface import (MKL, sparse_matrix_t, _create_mkl_sparse, debug_print, debug_timer,
-                                           _export_mkl, _order_mkl_handle, _destroy_mkl_handle, _type_check,
-                                           _empty_output_check, _sanity_check, _is_allowed_sparse_format,
-                                           _check_return_value)
+                                           _order_mkl_handle, _destroy_mkl_handle, _type_check,
+                                           _empty_output_check, _is_allowed_sparse_format,
+                                           _check_return_value, _allocate_for_export)
     from sparse_dot_mkl._sparse_sparse import _matmul_mkl
 except:
     pass
@@ -36,8 +38,58 @@ def mkl_dot(matrix_a, matrix_b, cast=False, reorder_output=False):
     if reorder_output:
         _order_mkl_handle(mkl_c)
     
-    python_c = _export_mkl(mkl_c, a_dbl or b_dbl, output_type="csr")
+    python_c = export_mkl(mkl_c)
     return python_c
+
+
+def export_mkl(csr_mkl_handle):
+    """
+    Export a MKL sparse handle of CSR or CSC type
+    :param csr_mkl_handle: Handle for the MKL internal representation
+    :type csr_mkl_handle: sparse_matrix_t
+    :return: Sparse matrix in scipy format
+    :rtype: scipy.spmatrix
+    """
+
+    out_func = MKL._mkl_sparse_d_export_csr
+    sp_matrix_constructor = _spsparse.csr_matrix
+
+    # Allocate for output
+    ordering, nrows, ncols, indptrb, indptren, indices, data = _allocate_for_export(True)
+    final_dtype = np.float64
+
+    ret_val = out_func(csr_mkl_handle,
+                       _ctypes.byref(ordering),
+                       _ctypes.byref(nrows),
+                       _ctypes.byref(ncols),
+                       _ctypes.byref(indptrb),
+                       _ctypes.byref(indptren),
+                       _ctypes.byref(indices),
+                       _ctypes.byref(data))
+
+    # Get matrix dims
+    ncols, nrows = ncols.value, nrows.value
+
+    # If any axis is 0 return an empty matrix
+    if nrows == 0 or ncols == 0:
+        return sp_matrix_constructor((nrows, ncols), dtype=final_dtype)
+
+    # Get the index dimension
+    index_dim = nrows
+
+    # Construct a numpy array and add 0 to first position for scipy.sparse's 3-array indexing
+    indptrb = as_array(indptrb, shape=(index_dim,))
+    indptren = as_array(indptren, shape=(index_dim,))
+
+    indptren = np.insert(indptren, 0, indptrb[0])
+    nnz = indptren[-1] - indptrb[0]
+
+    # Construct numpy arrays from data pointer and from indicies pointer
+    data = np.array(as_array(data, shape=(nnz,)), copy=True)
+    indices = np.array(as_array(indices, shape=(nnz,)), copy=True)
+
+    # Pack and return the matrix
+    return sp_matrix_constructor((data, indices, indptren), shape=(nrows, ncols))
 
 
 def uniform_approximation(a, b, c, d):
@@ -115,14 +167,14 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
         a, b = uniform_approximation(a, b, c, d)
 
     if a.ndim > 2 or b.ndim > 2:
-        if issparse(a):
+        if _spsparse.issparse(a):
             # sparse is always 2D. Implies b is 3D+
             # [i, j] @ [k, ..., l, m, n] -> [i, k, ..., l, n]
             b_ = np.rollaxis(b, -2)
             b_2d = b_.reshape((b.shape[-2], -1))
             a_b = dot_product(a, b_2d)
             a_b = a_b.reshape(a.shape[0], *b_.shape[1:])
-        elif issparse(b):
+        elif _spsparse.issparse(b):
             # sparse is always 2D. Implies a is 3D+
             # [k, ..., l, m] @ [i, j] -> [k, ..., l, j]
             a_2d = a.reshape(-1, a.shape[-1])
@@ -133,6 +185,6 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
     else:
         a_b = dot_product(a, b)
 
-    if issparse(a) and issparse(b) and dense_output and hasattr(a_b, "toarray"):
+    if _spsparse.issparse(a) and _spsparse.issparse(b) and dense_output and hasattr(a_b, "toarray"):
         return a_b.toarray()
     return a_b
