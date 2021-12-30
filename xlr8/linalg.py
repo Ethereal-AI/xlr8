@@ -38,15 +38,12 @@ except:
     pass
 
 
-def mkl_dot(matrix_a, matrix_b, cast=False, reorder_output=False):
+def mkl_dot(matrix_a, matrix_b, cast=False):
     # Create intel MKL objects
     mkl_a, a_dbl = _create_mkl_sparse(matrix_a)
     mkl_b, b_dbl = _create_mkl_sparse(matrix_b)
 
     mkl_c = _matmul_mkl(mkl_a, mkl_b)
-
-    if reorder_output:
-        _order_mkl_handle(mkl_c)
 
     python_c = export_mkl(mkl_c)
     return python_c
