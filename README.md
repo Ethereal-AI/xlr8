@@ -6,6 +6,11 @@ Fast cosine similarity for Python
 1. Clone the repository.<br>
 2. Run `pip install -e .` inside the local repository.<br>
 
+### Optional installation
+If you wish to leverage `xlr8`'s further speedup on large matrix multiplications, you may install the following:
+1. First, `sparse_dot` via `pip install sparse-dot-mkl`.
+2. Then, `Intel MKL` via `conda install -c intel mkl`.
+
 ### Usage
 
 Using the cosine similarity function is straightforward.
