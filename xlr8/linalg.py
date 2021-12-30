@@ -19,10 +19,20 @@ import scipy.sparse as _spsparse
 import ctypes as _ctypes
 
 try:
-    from sparse_dot_mkl._mkl_interface import (MKL, sparse_matrix_t, _create_mkl_sparse, debug_print, debug_timer,
-                                           _order_mkl_handle, _destroy_mkl_handle, _type_check,
-                                           _empty_output_check, _is_allowed_sparse_format,
-                                           _check_return_value, _allocate_for_export)
+    from sparse_dot_mkl._mkl_interface import (
+        MKL,
+        sparse_matrix_t,
+        _create_mkl_sparse,
+        debug_print,
+        debug_timer,
+        _order_mkl_handle,
+        _destroy_mkl_handle,
+        _type_check,
+        _empty_output_check,
+        _is_allowed_sparse_format,
+        _check_return_value,
+        _allocate_for_export,
+    )
     from sparse_dot_mkl._sparse_sparse import _matmul_mkl
 except:
     pass
@@ -37,7 +47,7 @@ def mkl_dot(matrix_a, matrix_b, cast=False, reorder_output=False):
 
     if reorder_output:
         _order_mkl_handle(mkl_c)
-    
+
     python_c = export_mkl(mkl_c)
     return python_c
 
@@ -55,17 +65,21 @@ def export_mkl(csr_mkl_handle):
     sp_matrix_constructor = _spsparse.csr_matrix
 
     # Allocate for output
-    ordering, nrows, ncols, indptrb, indptren, indices, data = _allocate_for_export(True)
+    ordering, nrows, ncols, indptrb, indptren, indices, data = _allocate_for_export(
+        True
+    )
     final_dtype = np.float64
 
-    ret_val = out_func(csr_mkl_handle,
-                       _ctypes.byref(ordering),
-                       _ctypes.byref(nrows),
-                       _ctypes.byref(ncols),
-                       _ctypes.byref(indptrb),
-                       _ctypes.byref(indptren),
-                       _ctypes.byref(indices),
-                       _ctypes.byref(data))
+    ret_val = out_func(
+        csr_mkl_handle,
+        _ctypes.byref(ordering),
+        _ctypes.byref(nrows),
+        _ctypes.byref(ncols),
+        _ctypes.byref(indptrb),
+        _ctypes.byref(indptren),
+        _ctypes.byref(indices),
+        _ctypes.byref(data),
+    )
 
     # Get matrix dims
     ncols, nrows = ncols.value, nrows.value
@@ -122,7 +136,9 @@ def uniform_approximation(a, b, c, d):
     return c, d
 
 
-def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size=1.0, blas="default"):
+def sparse_dot_product(
+    a, b, *, dense_output=False, use_float=False, approx_size=1.0, blas="default"
+):
     """Dot product that handle the sparse matrix case correctly.
     Parameters
     ----------
@@ -185,6 +201,11 @@ def sparse_dot_product(a, b, *, dense_output=False, use_float=False, approx_size
     else:
         a_b = dot_product(a, b)
 
-    if _spsparse.issparse(a) and _spsparse.issparse(b) and dense_output and hasattr(a_b, "toarray"):
+    if (
+        _spsparse.issparse(a)
+        and _spsparse.issparse(b)
+        and dense_output
+        and hasattr(a_b, "toarray")
+    ):
         return a_b.toarray()
     return a_b
