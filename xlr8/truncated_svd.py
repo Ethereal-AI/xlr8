@@ -8,6 +8,7 @@ Edited by Ethereal AI to further modify parameters of TruncatedSVD.
 #         Michael Becker <mike@beckerfuffle.com>
 #         Ethereal AI
 # License: 3-clause BSD.
+# Copyright 2021-2022
 
 import numpy as np
 import scipy.sparse as sp
