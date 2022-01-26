@@ -26,20 +26,15 @@ import scipy.sparse as _spsparse
 from numpy.ctypeslib import as_array
 
 try:
-    from sparse_dot_mkl._mkl_interface import (
-        MKL,
-        _allocate_for_export,
-        _check_return_value,
-        _create_mkl_sparse,
-        _destroy_mkl_handle,
-        _empty_output_check,
-        _is_allowed_sparse_format,
-        _order_mkl_handle,
-        _type_check,
-        debug_print,
-        debug_timer,
-        sparse_matrix_t,
-    )
+    from sparse_dot_mkl._mkl_interface import (MKL, _allocate_for_export,
+                                               _check_return_value,
+                                               _create_mkl_sparse,
+                                               _destroy_mkl_handle,
+                                               _empty_output_check,
+                                               _is_allowed_sparse_format,
+                                               _order_mkl_handle, _type_check,
+                                               debug_print, debug_timer,
+                                               sparse_matrix_t)
     from sparse_dot_mkl._sparse_sparse import _matmul_mkl
 except:
     pass
