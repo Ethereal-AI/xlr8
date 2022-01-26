@@ -42,19 +42,27 @@ def xlr8_cosine(use_float=False, approx_size=1.0):
 
 start_time = timeit.default_timer()
 sklearn_cosine()
-print(f"scikit-learn cosine similarity speed in seconds: {timeit.default_timer() - start_time}")
+print(
+    f"scikit-learn cosine similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
 
 start_time = timeit.default_timer()
 xlr8_cosine()
-print(f"xlr8 default cosine similarity speed in seconds: {timeit.default_timer() - start_time}")
+print(
+    f"xlr8 default cosine similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
 
 start_time = timeit.default_timer()
 xlr8_cosine(use_float=True)
-print(f"xlr8 float cosine similarity speed in seconds: {timeit.default_timer() - start_time}")
+print(
+    f"xlr8 float cosine similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
 
 start_time = timeit.default_timer()
 xlr8_cosine(approx_size=0.75)
-print(f"xlr8 approximated cosine similarity speed in seconds: {timeit.default_timer() - start_time}")
+print(
+    f"xlr8 approximated cosine similarity speed in seconds: {timeit.default_timer() - start_time}"
+)
 
 start_time = timeit.default_timer()
 xlr8_cosine(use_float=True, approx_size=0.75)
