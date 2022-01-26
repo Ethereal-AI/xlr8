@@ -12,14 +12,13 @@ Edited by Ethereal AI to further modify parameters of TruncatedSVD.
 
 import numpy as np
 import scipy.sparse as sp
-from scipy.sparse.linalg import svds
 from scipy import linalg
-
+from scipy.sparse.linalg import svds
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils import check_array, check_random_state
-from sklearn.utils.extmath import safe_sparse_dot, svd_flip, randomized_range_finder
+from sklearn.utils.extmath import (randomized_range_finder, safe_sparse_dot,
+                                   svd_flip)
 from sklearn.utils.sparsefuncs import mean_variance_axis
-
 
 __all__ = ["TruncatedSVD"]
 

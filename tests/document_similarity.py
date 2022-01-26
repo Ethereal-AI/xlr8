@@ -13,13 +13,15 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import timeit
+import warnings
+
+import numpy as np
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity as sk_cos
+
 from xlr8.similarity import cosine_similarity as xlr8_cos
-import warnings
-import timeit
-import numpy as np
 
 
 def query_similarity(vectorizer, docs_tfidf, query, library="sklearn", blas="default"):

@@ -13,26 +13,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import numpy as np
-from numpy.ctypeslib import as_array
-import scipy.sparse as _spsparse
 import ctypes as _ctypes
 
+import numpy as np
+import scipy.sparse as _spsparse
+from numpy.ctypeslib import as_array
+
 try:
-    from sparse_dot_mkl._mkl_interface import (
-        MKL,
-        sparse_matrix_t,
-        _create_mkl_sparse,
-        debug_print,
-        debug_timer,
-        _order_mkl_handle,
-        _destroy_mkl_handle,
-        _type_check,
-        _empty_output_check,
-        _is_allowed_sparse_format,
-        _check_return_value,
-        _allocate_for_export,
-    )
+    from sparse_dot_mkl._mkl_interface import (MKL, _allocate_for_export,
+                                               _check_return_value,
+                                               _create_mkl_sparse,
+                                               _destroy_mkl_handle,
+                                               _empty_output_check,
+                                               _is_allowed_sparse_format,
+                                               _order_mkl_handle, _type_check,
+                                               debug_print, debug_timer,
+                                               sparse_matrix_t)
     from sparse_dot_mkl._sparse_sparse import _matmul_mkl
 except:
     pass

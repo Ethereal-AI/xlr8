@@ -13,10 +13,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from xlr8.truncated_svd import TruncatedSVD
 from sklearn.metrics.pairwise import check_pairwise_arrays
 from sklearn.preprocessing._data import normalize
+
 from xlr8.linalg import sparse_dot_product
+from xlr8.truncated_svd import TruncatedSVD
 
 
 def cosine_similarity(

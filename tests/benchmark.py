@@ -13,12 +13,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity as sk_cos
-from scipy.spatial.distance import cdist
-from xlr8.similarity import cosine_similarity as xlr8_cos
-import timeit
 import sys
+import timeit
+
+import numpy as np
+from scipy.spatial.distance import cdist
+from sklearn.metrics.pairwise import cosine_similarity as sk_cos
+
+from xlr8.similarity import cosine_similarity as xlr8_cos
 
 try:
     dim = int(sys.argv[1])
